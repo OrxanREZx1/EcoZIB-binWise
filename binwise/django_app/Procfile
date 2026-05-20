@@ -1,0 +1,1 @@
+web: gunicorn binwise_site.wsgi
