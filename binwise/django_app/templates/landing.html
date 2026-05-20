@@ -1,0 +1,271 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}BinWise - Smart Waste Monitoring{% endblock %}
+
+{% block content %}
+<!-- NAV -->
+<nav class="lp-nav">
+  <a href="{% url 'landing' %}" class="brand">
+    <!-- Add the real BinWise logo here: static/images/logo/binwise-logo.png -->
+    <img src="{% static 'images/logo/binwise-logo.png' %}" alt="BinWise Logo" class="site-logo">
+    <span class="brand-text">BinWise</span>
+  </a>
+  <div class="lp-nav-links">
+    <a href="#problem">Problem</a>
+    <a href="#solution">Solution</a>
+    <a href="#features">Features</a>
+    <a href="#about">About</a>
+  </div>
+  <a href="{% url 'dashboard' %}" class="btn-primary">View dashboard</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <div class="hero-eyebrow">
+      <div class="live-dot"></div>
+      Smart IoT waste monitoring
+    </div>
+    <h1>Smarter waste collection starts with <span>BinWise</span></h1>
+    <p class="hero-sub">BinWise helps cities, campuses, and residential complexes monitor litter bins in real time using IoT sensors — reducing overflow, unnecessary collection trips, and operational costs.</p>
+    <div class="hero-btns">
+      <a href="{% url 'dashboard' %}" class="btn-primary">View dashboard</a>
+      <a href="#problem" class="btn-outline">Learn more</a>
+    </div>
+  </div>
+
+  <!-- Bin mockup card -->
+  <div>
+    <div class="bin-mockup">
+      <div class="bin-mock-header">
+        <span class="bin-mock-title">Live bin status</span>
+        <span class="bin-mock-live"><span class="live-dot"></span> Live</span>
+      </div>
+      <div class="bin-visual">
+        <div>
+          <div class="bin-lid"></div>
+          <div class="bin-body">
+            <div class="bin-fill warning" style="height:82%"></div>
+          </div>
+          <div class="bin-pct">82%</div>
+          <div class="bin-label">Almost full</div>
+        </div>
+        <div>
+          <div class="bin-lid"></div>
+          <div class="bin-body">
+            <div class="bin-fill" style="height:44%"></div>
+          </div>
+          <div class="bin-pct">44%</div>
+          <div class="bin-label">Medium</div>
+        </div>
+        <div>
+          <div class="bin-lid"></div>
+          <div class="bin-body">
+            <div class="bin-fill" style="height:96%; background:#E24B4A; opacity:0.8;"></div>
+          </div>
+          <div class="bin-pct" style="color:#A32D2D;">96%</div>
+          <div class="bin-label" style="color:#A32D2D;">Full</div>
+        </div>
+      </div>
+      <div class="metrics-mini">
+        <div class="metric-pill">
+          <span class="metric-pill-label"><i class="ti ti-temperature" aria-hidden="true"></i> Temperature — BIN-001</span>
+          <span class="metric-pill-val val-green">31°C · Normal</span>
+        </div>
+        <div class="metric-pill">
+          <span class="metric-pill-label"><i class="ti ti-flame" aria-hidden="true"></i> Fire risk — BIN-003</span>
+          <span class="metric-pill-val val-red">57°C · Warning</span>
+        </div>
+        <div class="metric-pill">
+          <span class="metric-pill-label"><i class="ti ti-clock" aria-hidden="true"></i> Last update</span>
+          <span class="metric-pill-val" style="color:var(--color-text-secondary);">30 sec ago</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section id="problem" class="section">
+  <div class="section-label">The problem</div>
+  <h2 class="section-title">Traditional waste collection is inefficient</h2>
+  <p class="section-sub">Fixed schedules, lack of real-time data, and invisible safety risks cost time, money, and public trust.</p>
+  <div class="cards-4">
+    <div class="card">
+      <div class="card-icon icon-red"><i class="ti ti-trash" aria-hidden="true"></i></div>
+      <div class="card-title">Overflowing bins</div>
+      <div class="card-desc">Fixed collection schedules often miss bins that become full too early, causing overflow and complaints.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon icon-amber"><i class="ti ti-truck" aria-hidden="true"></i></div>
+      <div class="card-title">Unnecessary trips</div>
+      <div class="card-desc">Trucks visit half-empty bins, wasting fuel, labor, and time that could be better spent elsewhere.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon icon-blue"><i class="ti ti-eye-off" aria-hidden="true"></i></div>
+      <div class="card-title">No real-time visibility</div>
+      <div class="card-desc">Operators have no way to know which bins need urgent collection until it's too late.</div>
+    </div>
+    <div class="card">
+      <div class="card-icon icon-red"><i class="ti ti-flame" aria-hidden="true"></i></div>
+      <div class="card-title">Safety risks</div>
+      <div class="card-desc">Fires or abnormal heat inside bins can go unnoticed and escalate into serious incidents.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION -->
+<section id="solution" class="section section-alt">
+  <div class="section-label">Our solution</div>
+  <h2 class="section-title">Connected bins. Smarter decisions.</h2>
+  <p class="section-sub">BinWise turns ordinary litter bins into smart connected bins. Sensors measure fill level and temperature, then send data to a web dashboard where operators can monitor status, detect risks, and make better collection decisions.</p>
+  <div class="flow-row">
+    <div class="flow-step">
+      <div class="flow-step-icon">📡</div>
+      <div class="flow-step-name">Sensors</div>
+      <div class="flow-step-desc">HC-SR04 + DS18B20</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="flow-step-icon">🔌</div>
+      <div class="flow-step-name">ESP32</div>
+      <div class="flow-step-desc">Processes & transmits</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="flow-step-icon">☁️</div>
+      <div class="flow-step-name">Cloud API</div>
+      <div class="flow-step-desc">Stores readings</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="flow-step-icon">📊</div>
+      <div class="flow-step-name">Dashboard</div>
+      <div class="flow-step-desc">Live operator view</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step" style="border-color: #5DCAA5; border-width: 1px;">
+      <div class="flow-step-icon">✅</div>
+      <div class="flow-step-name">Smarter collection</div>
+      <div class="flow-step-desc">Right bin, right time</div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" class="section">
+  <div class="section-label">What we offer</div>
+  <h2 class="section-title">Everything operators need</h2>
+  <p class="section-sub">From real-time monitoring to fire-risk detection, BinWise gives your team the visibility to act fast and plan smart.</p>
+  <div class="feature-cards">
+    <div class="feature-card">
+      <div class="feature-num">01</div>
+      <div class="feature-title"><i class="ti ti-wave-sine" aria-hidden="true" style="color:#1D9E75;margin-right:6px;"></i>Real-time fill monitoring</div>
+      <div class="feature-desc">Track exactly how full each bin is using ultrasonic distance sensing, updated every 30 seconds.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">02</div>
+      <div class="feature-title"><i class="ti ti-flame" aria-hidden="true" style="color:#E24B4A;margin-right:6px;"></i>Fire risk detection</div>
+      <div class="feature-desc">Detect abnormal temperature rise inside bins and instantly mark possible fire risk on the dashboard.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">03</div>
+      <div class="feature-title"><i class="ti ti-layout-dashboard" aria-hidden="true" style="color:#185FA5;margin-right:6px;"></i>Smart dashboard</div>
+      <div class="feature-desc">View bin status, fill percentage, temperature, alerts, and last update time in one clear interface.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">04</div>
+      <div class="feature-title"><i class="ti ti-arrows-sort" aria-hidden="true" style="color:#1D9E75;margin-right:6px;"></i>Collection prioritization</div>
+      <div class="feature-desc">Help teams focus on the bins that actually need collection, not fixed-schedule guesswork.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">05</div>
+      <div class="feature-title"><i class="ti ti-history" aria-hidden="true" style="color:#BA7517;margin-right:6px;"></i>Historical data</div>
+      <div class="feature-desc">Store all readings to understand waste patterns over time and plan resources intelligently.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">06</div>
+      <div class="feature-title"><i class="ti ti-topology-star" aria-hidden="true" style="color:#533DB7;margin-right:6px;"></i>Scalable IoT system</div>
+      <div class="feature-desc">Start with a single bin prototype and expand to dozens of locations without changing the architecture.</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO WE ARE -->
+<section id="about" class="who-we-are">
+  <div class="who-content">
+    <div class="who-text">
+      <span class="section-label">WHO WE ARE</span>
+      <h2 style="font-size: 2.5rem; margin-top: 12px; margin-bottom: 24px;">Built for cleaner cities</h2>
+      <p style="font-size: 1.125rem; line-height: 1.6; color: var(--color-text-secondary);">
+        BinWise is a student-built smart city solution designed to make waste collection more efficient,
+        cleaner, and data-driven. Our mission is to help communities reduce overflowing bins, save
+        resources, and build cleaner urban environments using affordable IoT technology.
+      </p>
+    </div>
+
+    <div class="who-side">
+      <div class="values-grid" style="grid-template-columns: repeat(2, 1fr); gap: 16px;">
+        <div class="value-card"><div class="value-dot"></div><div class="value-label">Innovation</div></div>
+        <div class="value-card"><div class="value-dot" style="background:#5DCAA5;"></div><div class="value-label">Sustainability</div></div>
+        <div class="value-card"><div class="value-dot" style="background:#378ADD;"></div><div class="value-label">Smart city</div></div>
+        <div class="value-card"><div class="value-dot" style="background:#EF9F27;"></div><div class="value-label">Affordable tech</div></div>
+      </div>
+
+      <div class="team-preview">
+        <div class="team-header">
+          <span class="section-label" style="margin-bottom: 4px;">MEET THE TEAM</span>
+          <h3 style="margin: 6px 0 20px; font-size: 1.25rem;">The people behind BinWise</h3>
+        </div>
+
+        <div class="team-grid">
+          <article class="team-card">
+            <!-- Add real team photos inside: static/images/team/ -->
+            <img src="{% static 'images/team/kubra.jpg' %}" alt="Kübra Kazımova" class="team-photo">
+            <h4>Kübra Kazımova</h4>
+            <p>CEO</p>
+          </article>
+
+          <article class="team-card">
+            <!-- Add real team photos inside: static/images/team/ -->
+            <img src="{% static 'images/team/fatime.jpg' %}" alt="Fatimə Ağayeva" class="team-photo">
+            <h4>Fatimə Ağayeva</h4>
+            <p>CTO</p>
+          </article>
+
+          <article class="team-card">
+            <!-- Add real team photos inside: static/images/team/ -->
+            <img src="{% static 'images/team/aliye.jpg' %}" alt="Aliyə Qədirli" class="team-photo">
+            <h4>Aliyə Qədirli</h4>
+            <p>Developer</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- CTA -->
+<div style="padding: 0 0 0 0; margin-top: 48px;">
+  <div class="cta-section">
+    <h2>Ready to make waste collection smarter?</h2>
+    <p>Monitor bins, reduce overflow, and support cleaner cities with BinWise.</p>
+    <a href="{% url 'dashboard' %}" class="btn-white">Open dashboard →</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="lp-footer">
+  <div class="brand" style="font-size:13px;">
+    <!-- Add the real BinWise logo here: static/images/logo/binwise-logo.png -->
+    <img src="{% static 'images/logo/binwise-logo.png' %}" alt="BinWise Logo" class="site-logo" style="width:24px;height:24px;">
+    <span class="brand-text">BinWise</span>
+  </div>
+  <span class="footer-copy">© 2026 BinWise · Smart Waste Monitoring</span>
+  <div class="footer-links">
+    <a href="#">Privacy</a>
+    <a href="#">Contact</a>
+    <a href="#">GitHub</a>
+  </div>
+</footer>
+{% endblock %}

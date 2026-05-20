@@ -1,0 +1,270 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}BinWise - Dashboard{% endblock %}
+
+{% block content %}
+<div class="db-shell">
+  <!-- TOP NAV -->
+  <nav class="db-nav">
+    <a href="{% url 'landing' %}" class="brand">
+      <!-- Add the real BinWise logo here: static/images/logo/binwise-logo.png -->
+      <img src="{% static 'images/logo/binwise-logo.png' %}" alt="BinWise Logo" class="site-logo">
+      <span class="brand-text">BinWise Dashboard</span>
+    </a>
+    <div class="db-nav-links">
+      <button class="nav-pill active">Dashboard</button>
+    </div>
+    <div class="db-nav-right">
+      <div style="width:30px;height:30px;border-radius:50%;background:#E1F5EE;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:#0F6E56;">OP</div>
+    </div>
+  </nav>
+
+  <div class="db-body">
+    <!-- SIDEBAR -->
+    <aside class="db-sidebar">
+      <div class="sidebar-section-label">Monitor</div>
+      <a href="#" class="sidebar-item active" data-view="overview"><i class="ti ti-layout-dashboard" aria-hidden="true"></i> Overview</a>
+      <a href="#" class="sidebar-item" data-view="alerts"><i class="ti ti-bell" aria-hidden="true"></i> Alerts <span id="sidebar-alerts-badge" style="margin-left:auto;background:#FCEBEB;color:#A32D2D;font-size:10px;font-weight:500;padding:2px 6px;border-radius:10px;display:none;">0</span></a>
+      <a href="#" class="sidebar-item" data-view="settings"><i class="ti ti-settings" aria-hidden="true"></i> Settings</a>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="db-main">
+      <div id="alerts-view" style="display: none;"></div>
+
+      <div id="overview-view">
+        <!-- PAGE HEADER -->
+        <div class="page-header">
+        <div>
+          <div class="page-title">Overview</div>
+          <div class="page-sub"><span id="last-synced-text">Last synced: 30 seconds ago</span> · <span id="active-bins-count">12</span> bins active</div>
+        </div>
+        <button id="refreshBtn" class="refresh-btn"><i class="ti ti-refresh" aria-hidden="true"></i> <span>Refresh</span></button>
+      </div>
+
+      <!-- SUMMARY CARDS -->
+      <div class="summary-row">
+        <div class="sum-card">
+          <div class="sum-card-header">
+            <span class="sum-card-label">Total bins</span>
+            <div class="sum-card-icon ic-teal"><i class="ti ti-trash" aria-hidden="true"></i></div>
+          </div>
+          <div class="sum-card-val" id="total-bins">12</div>
+          <div class="sum-card-trend">All devices online</div>
+        </div>
+        <div class="sum-card">
+          <div class="sum-card-header">
+            <span class="sum-card-label">Full bins</span>
+            <div class="sum-card-icon ic-red"><i class="ti ti-alert-triangle" aria-hidden="true"></i></div>
+          </div>
+          <div class="sum-card-val" style="color:#A32D2D;" id="full-bins">3</div>
+          <div class="sum-card-trend">Collection required</div>
+        </div>
+        <div class="sum-card">
+          <div class="sum-card-header">
+            <span class="sum-card-label">Fire risk alerts</span>
+            <div class="sum-card-icon ic-orange"><i class="ti ti-flame" aria-hidden="true"></i></div>
+          </div>
+          <div class="sum-card-val" style="color:#854F0B;" id="fire-alerts">1</div>
+          <div class="sum-card-trend">BIN-003 — 57°C</div>
+        </div>
+        <div class="sum-card">
+          <div class="sum-card-header">
+            <span class="sum-card-label">Avg. fill level</span>
+            <div class="sum-card-icon ic-blue"><i class="ti ti-chart-bar" aria-hidden="true"></i></div>
+          </div>
+          <div class="sum-card-val" id="average-fill">67%</div>
+          <div class="sum-card-trend">↑ 8% since yesterday</div>
+        </div>
+      </div>
+
+      <!-- TABLE + RIGHT COL -->
+      <div class="content-row">
+        <!-- BIN TABLE -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Live bin status</span>
+            <div class="filter-row">
+              <button class="filter-btn on" data-filter="all">All</button>
+              <button class="filter-btn" data-filter="full">Full</button>
+              <button class="filter-btn" data-filter="fire">Fire</button>
+            </div>
+          </div>
+          <div class="table-scroll">
+            <table class="bin-table">
+              <thead>
+                <tr>
+                  <th>Bin ID</th>
+                  <th>Location</th>
+                  <th class="numeric">Fill level</th>
+                  <th class="numeric">Temp</th>
+                  <th class="numeric">Humidity</th>
+                  <th>Flame</th>
+                  <th>Status</th>
+                  <th>Fire risk</th>
+                  <th class="numeric">Updated</th>
+                </tr>
+              </thead>
+              <tbody id="bins-table-body">
+                <tr>
+                  <td><span class="bin-id">BIN-001</span></td>
+                  <td><span class="location-txt">Campus main gate</span></td>
+                  <td class="numeric">
+                    <div style="display:flex;align-items:center;gap:8px;">
+                      <div class="fill-bar-wrap"><div class="fill-bar almost" style="width:82%"></div></div>
+                      <span style="font-size:12px;font-weight:500;">82%</span>
+                    </div>
+                  </td>
+                  <td class="numeric"><span class="temp-txt">31°C</span></td>
+                  <td class="numeric"><span class="badge badge-almost">Almost full</span></td>
+                  <td><span class="badge badge-normal">Normal</span></td>
+                  <td class="numeric"><span class="time-txt">2 min ago</span></td>
+                </tr>
+                <tr>
+                  <td><span class="bin-id">BIN-002</span></td>
+                  <td><span class="location-txt">Library area</span></td>
+                  <td class="numeric">
+                    <div style="display:flex;align-items:center;gap:8px;">
+                      <div class="fill-bar-wrap"><div class="fill-bar med" style="width:45%"></div></div>
+                      <span style="font-size:12px;font-weight:500;">45%</span>
+                    </div>
+                  </td>
+                  <td class="numeric"><span class="temp-txt">29°C</span></td>
+                  <td class="numeric"><span class="badge badge-med">Medium</span></td>
+                  <td><span class="badge badge-normal">Normal</span></td>
+                  <td class="numeric"><span class="time-txt">1 min ago</span></td>
+                </tr>
+                <tr class="selected">
+                  <td><span class="bin-id" style="color:#A32D2D;">BIN-003</span></td>
+                  <td><span class="location-txt">Parking zone</span></td>
+                  <td class="numeric">
+                    <div style="display:flex;align-items:center;gap:8px;">
+                      <div class="fill-bar-wrap"><div class="fill-bar full" style="width:96%"></div></div>
+                      <span style="font-size:12px;font-weight:500;color:#A32D2D;">96%</span>
+                    </div>
+                  </td>
+                  <td class="numeric"><span class="temp-txt" style="color:#A32D2D;">57°C</span></td>
+                  <td class="numeric"><span class="badge badge-full">Full</span></td>
+                  <td><span class="badge badge-risk"><i class="ti ti-flame" aria-hidden="true" style="font-size:10px;"></i> Warning</span></td>
+                  <td class="numeric"><span class="time-txt">30 sec ago</span></td>
+                </tr>
+                <tr>
+                  <td><span class="bin-id">BIN-004</span></td>
+                  <td><span class="location-txt">Cafeteria</span></td>
+                  <td class="numeric">
+                    <div style="display:flex;align-items:center;gap:8px;">
+                      <div class="fill-bar-wrap"><div class="fill-bar low" style="width:22%"></div></div>
+                      <span style="font-size:12px;font-weight:500;">22%</span>
+                    </div>
+                  </td>
+                  <td class="numeric"><span class="temp-txt">28°C</span></td>
+                  <td class="numeric"><span class="badge badge-low">Low</span></td>
+                  <td><span class="badge badge-normal">Normal</span></td>
+                  <td class="numeric"><span class="time-txt">5 min ago</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="right-col">
+          <!-- DETAIL CARD -->
+          <div class="panel">
+            <div class="panel-header">
+              <span class="panel-title">Bin detail</span>
+              <span class="badge badge-full">Selected</span>
+            </div>
+            <div id="selected-bin-detail" class="detail-card">
+              <div class="detail-header">
+                <div class="detail-bin-id">BIN-003</div>
+                <div class="detail-loc"><i class="ti ti-map-pin" aria-hidden="true" style="font-size:11px;"></i> Parking zone</div>
+              </div>
+              <div class="detail-section">
+                <div class="detail-label">Fill level</div>
+                <div class="progress-wrap"><div class="progress-bar" style="width:96%;"></div></div>
+                <div class="progress-pct" style="color:#A32D2D;margin-top:4px;">96% — Full</div>
+              </div>
+              <div>
+                <div class="detail-row">
+                  <span class="detail-row-label">Temperature</span>
+                  <span class="detail-row-val" style="color:#A32D2D;">57°C</span>
+                </div>
+                <div class="detail-row">
+                  <span class="detail-row-label">Fire risk</span>
+                  <span class="badge badge-warn"><i class="ti ti-flame" aria-hidden="true" style="font-size:10px;"></i> Warning</span>
+                </div>
+                <div class="detail-row">
+                  <span class="detail-row-label">Device status</span>
+                  <span class="detail-row-val" style="color:#1D9E75;">Online</span>
+                </div>
+                <div class="detail-row">
+                  <span class="detail-row-label">Last update</span>
+                  <span class="detail-row-val">30 sec ago</span>
+                </div>
+              </div>
+              <div class="reco-box"><i class="ti ti-alert-triangle" aria-hidden="true" style="font-size:13px;"></i> Collection required. Bin is full and temperature is above normal — check for fire risk.</div>
+            </div>
+          </div>
+
+          <!-- ALERTS -->
+          <div class="panel">
+            <div class="panel-header alerts-panel">
+              <span class="panel-title">Active alerts</span>
+              <span class="badge badge-full" id="alerts-count">2 urgent</span>
+            </div>
+            <div id="alerts-panel">
+              <div class="alert-item">
+                <div class="alert-dot critical"></div>
+                <div>
+                  <div class="alert-text">BIN-003 is 96% full. Immediate collection required.</div>
+                  <div class="alert-time">30 sec ago</div>
+                </div>
+              </div>
+              <div class="alert-item">
+                <div class="alert-dot warn"></div>
+                <div>
+                  <div class="alert-text">BIN-003 temperature at 57°C. Possible fire risk detected.</div>
+                  <div class="alert-time">1 min ago</div>
+                </div>
+              </div>
+              <div class="alert-item">
+                <div class="alert-dot info"></div>
+                <div>
+                  <div class="alert-text">BIN-001 above 80%. Plan collection soon.</div>
+                  <div class="alert-time">2 min ago</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHARTS -->
+      <div class="charts-row">
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Current Fill Levels</span>
+          </div>
+          <div id="fill-chart" class="chart-area" style="min-height: 120px;">
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Current Temperatures</span>
+          </div>
+          <div id="temperature-chart" class="chart-area" style="min-height: 120px;">
+          </div>
+        </div>
+      </div>
+      <!-- END OVERVIEW VIEW -->
+    </main>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/dashboard.js' %}?v=4"></script>
+{% endblock %}
