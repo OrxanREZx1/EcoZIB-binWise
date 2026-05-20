@@ -1,6 +1,6 @@
 // static/js/dashboard.js
 
-const API_URL = "http://127.0.0.1:8001/api/bins/latest";
+const API_URL = "/api/readings/latest";
 
 let latestBins = [];
 let selectedBinId = null;
