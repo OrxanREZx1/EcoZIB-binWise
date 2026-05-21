@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
         updateLastSyncedText();
       } catch (error) {
         console.error("Failed to refresh dashboard:", error);
-        alert("Could not refresh dashboard data. Please check if FastAPI is running.");
+        alert("Could not refresh dashboard data. Please check that the Django API is running.");
       } finally {
         refreshButton.disabled = false;
         refreshButton.innerHTML = '<i class="ti ti-refresh" aria-hidden="true"></i> <span>Refresh</span>';
@@ -133,15 +133,15 @@ async function loadDashboardData() {
 
     const data = await response.json();
     
-    if (!Array.isArray(data)) {
-      throw new Error("Invalid API response: expected an array");
+    if (data.status !== "success" || !Array.isArray(data.readings)) {
+      throw new Error("Invalid API response format");
     }
 
-    latestBins = data;
-    activeAlerts = generateAlerts(data);
+    latestBins = data.readings;
+    activeAlerts = generateAlerts(latestBins);
     
     if (activeView === "overview") {
-      renderDashboard(data);
+      renderDashboard(latestBins);
     } else if (activeView === "alerts") {
       renderAlertsPage();
     }
@@ -150,7 +150,7 @@ async function loadDashboardData() {
     
     const activeBinsEl = document.getElementById("active-bins-count");
     if (activeBinsEl) {
-      activeBinsEl.textContent = data.length;
+      activeBinsEl.textContent = latestBins.length;
     }
   } catch (error) {
     console.error("Dashboard data loading error:", error);
@@ -555,15 +555,15 @@ function showLoadingState() {
 function showErrorState() {
   const tbody = document.getElementById("bins-table-body");
   if (tbody) {
-    tbody.innerHTML = `<tr><td colspan="9" style="text-align: center; padding: 30px;" class="error-state">Unable to load bin data. Please make sure the FastAPI server is running on port 8001.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="9" style="text-align: center; padding: 30px;" class="error-state">Unable to load bin data. Please check that the Django API is running and sensor readings exist.</td></tr>`;
   }
 
   const alertsPanel = document.getElementById("alerts-panel");
   if (alertsPanel) {
     alertsPanel.innerHTML = `
-      <div class="alert-item alert-error" style="color:#A32D2D;">
-        Unable to connect to FastAPI. Start the API server and refresh the page.
-      </div>
+      <p style="color: #6b7280; font-size: 14px; line-height: 1.5; margin-bottom: 24px;">
+        Unable to load bin data. Please check that the Django API is running and sensor readings exist.
+      </p>
     `;
   }
 }

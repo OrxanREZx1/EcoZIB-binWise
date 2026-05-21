@@ -71,4 +71,7 @@ def api_readings_latest(request):
     # Sort to keep order stable
     response_data.sort(key=lambda x: x["bin_id"])
     
-    return JsonResponse(response_data, safe=False)
+    return JsonResponse({
+        "status": "success",
+        "readings": response_data
+    })
