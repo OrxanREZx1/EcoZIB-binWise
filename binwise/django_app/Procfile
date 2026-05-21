@@ -1,1 +1,1 @@
-web: gunicorn binwise_site.wsgi
+web: python manage.py migrate && gunicorn binwise_site.wsgi
